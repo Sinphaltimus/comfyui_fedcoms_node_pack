@@ -10,9 +10,12 @@ function Get-ValidPath($prompt) {
     } while ($true)
 }
 
-# Function to filter directories that contain files
+# Function to filter directories that contain files and include file size in MB with proper alignment
 function Get-FullPaths($source) {
-    Get-ChildItem -Path $source -Recurse | Where-Object { $_.PSIsContainer -eq $false } | ForEach-Object { $_.FullName }
+    Get-ChildItem -Path $source -Recurse | Where-Object { $_.PSIsContainer -eq $false } |
+    ForEach-Object {
+        "{0,-12} {1}" -f ("{0,8:N2} MB" -f ($_.Length / 1MB)), $_.FullName
+    }
 }
 
 # Get valid model directory path from user
@@ -48,8 +51,11 @@ if (Test-Path $mlistPath) {
     } while ($choice -notmatch "^[YN]$")
 }
 
-# Generate the model list excluding empty directories
+# Generate the model list with aligned columns
 Write-Host "`n📂 Scanning directory: $source"
 Get-FullPaths $source | Out-File $mlistPath
+
+# ✅ Auto-open model_list.txt in Notepad
+Start-Process notepad.exe $mlistPath
 
 Write-Host "`n✅ Model list saved successfully at: $mlistPath" -ForegroundColor Green
