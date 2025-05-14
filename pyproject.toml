@@ -1,0 +1,15 @@
+[project]
+name = "fedcoms_node_pack"
+description = "Several nodes that attempt to extract metadata and raw text information from Gen AI models."
+version = "1.0.0"
+license = {file = "LICENSE"}
+dependencies = ["os", "json", "torch", "safetensors", "re", "datetime", "chardet"]
+
+[project.urls]
+Repository = "https://github.com/Sinphaltimus/comfyui_fedcoms_node_pack"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "comfyui_fedcoms_node_pack"
+Icon = ""
